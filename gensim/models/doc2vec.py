@@ -654,14 +654,18 @@ class Doc2Vec(Word2Vec):
     def _raw_word_count(self, items):
         return sum(len(item.words) for item in items)
 
-    def infer_vector(self, doc_words, alpha=0.1, min_alpha=0.0001, steps=5):
+    def infer_vector(self, doc_words, alpha=0.1, min_alpha=0.0001, steps=5,
+                     seed=None):
         """
         Infer a vector for given post-bulk training document.
 
         Document should be a list of (word) tokens.
         """
         doctag_vectors = empty((1, self.vector_size), dtype=REAL)
-        doctag_vectors[0] = self.seeded_vector(' '.join(doc_words))
+        if not seed:
+            doctag_vectors[0] = self.seeded_vector(' '.join(doc_words))
+        else:
+            doctag_vectors[0] = seed
         doctag_locks = ones(1, dtype=REAL)
         doctag_indexes = [0]
 
