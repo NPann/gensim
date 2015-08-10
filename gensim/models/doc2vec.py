@@ -662,10 +662,10 @@ class Doc2Vec(Word2Vec):
         Document should be a list of (word) tokens.
         """
         doctag_vectors = empty((1, self.vector_size), dtype=REAL)
-        if not seed:
-            doctag_vectors[0] = self.seeded_vector(' '.join(doc_words))
-        else:
+        if seed:
             doctag_vectors[0] = seed
+        else:
+            doctag_vectors[0] = self.seeded_vector(' '.join(doc_words))
         doctag_locks = ones(1, dtype=REAL)
         doctag_indexes = [0]
 
